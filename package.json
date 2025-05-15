@@ -1,0 +1,11 @@
+{
+    "name": "microfrontend-dashboard",
+    "private": true,
+    "version": "1.0.0",
+    "scripts": {
+      "start:dashboard": "cd dashboard-app && npm start",
+      "start:user": "cd user-management-app && npm start",
+      "start:store": "cd shared-store && npm run build && npm run start",
+      "start:host": "cd host-app && npm start"
+    }
+  }
