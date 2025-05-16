@@ -46,6 +46,7 @@
     "react-app-polyfill": "^3.0.0",
     "react-dev-utils": "^12.0.1",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.56.3",
     "react-redux": "^9.2.0",
     "react-refresh": "^0.11.0",
     "react-router-dom": "^7.6.0",
@@ -54,6 +55,7 @@
     "sass": "^1.88.0",
     "sass-loader": "^12.3.0",
     "semver": "^7.3.5",
+    "shared-store": "file:../shared-store",
     "source-map-loader": "^3.0.0",
     "style-loader": "^3.3.1",
     "terser-webpack-plugin": "^5.2.5",
@@ -62,8 +64,7 @@
     "webpack": "^5.64.4",
     "webpack-dev-server": "^4.6.0",
     "webpack-manifest-plugin": "^4.0.2",
-    "workbox-webpack-plugin": "^6.4.1",
-    "shared-store": "file:../shared-store"
+    "workbox-webpack-plugin": "^6.4.1"
   },
   "scripts": {
     "start": "node scripts/start.js",

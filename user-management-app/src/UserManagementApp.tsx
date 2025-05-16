@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import UserList from './components/UserList';
 import UserForm from './components/UserForm';

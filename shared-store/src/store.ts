@@ -14,11 +14,13 @@ const userSlice = createSlice({
 });
 
 interface GitHubUser {
-    id: number;
-    login: string;
     avatar_url: string;
-    html_url: string;
-}
+    id: string;
+    name: string;
+    email: string;
+    role: 'admin' | 'viewer';
+    password: string;
+  }
 
 const githubUsersSlice = createSlice({
     name: 'githubUsers',

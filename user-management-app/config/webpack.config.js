@@ -222,7 +222,7 @@ module.exports = function (webpackEnv) {
       // It requires a trailing slash, or the file assets will get an incorrect path.
       // We inferred the "public path" (such as / or /my-project) from homepage.
       publicPath: 'auto',
-      library: {
+      library: { 
         name: 'usermanagement',
         type: 'var',
       },

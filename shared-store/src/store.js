@@ -1,6 +1,6 @@
 var _a;
 import { configureStore, createSlice } from '@reduxjs/toolkit';
-// interface UserPayload { name: string; role: string };
+;
 var userSlice = createSlice({
     name: 'user',
     initialState: { name: '', role: '' },
@@ -16,7 +16,8 @@ var githubUsersSlice = createSlice({
     initialState: [],
     reducers: {
         setUsers: function (state, action) {
-            return action.payload;
+            state.length = 0;
+            state.push.apply(state, action.payload);
         },
         addUser: function (state, action) {
             state.push(action.payload);

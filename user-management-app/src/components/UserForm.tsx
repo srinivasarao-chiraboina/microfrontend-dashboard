@@ -1,34 +1,115 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { addUser, updateUser, RootState } from 'shared-store/src/store';
+import './UserForm.scss';
+
+type FormData = {
+  name: string;
+  role: 'admin' | 'viewer';
+  email: string;
+  password: string;
+};
 
 const UserForm = () => {
-  const [form, setForm] = useState({ name: '', email: '', role: '' });
+  const { id } = useParams<{ id: string }>();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: value }));
-  };
+  const existingUser = useSelector((state: RootState) =>
+    state.githubUsers.find(user => user.id === id)
+  );
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('User submitted:', form);
-    alert('User created!');
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors }
+  } = useForm<FormData>();
+
+  useEffect(() => {
+    if (existingUser) {
+      setValue('name', existingUser.name || '');
+      setValue('role', existingUser.role || 'viewer');
+      setValue('email', existingUser.email || '');
+      setValue('password', existingUser.password || '');
+    }
+  }, [existingUser, setValue]);
+
+  const onSubmit = (data: FormData) => {
+    if (existingUser) {
+      const updatedUser = {
+        ...existingUser,
+        login: data.name,
+        name: data.name,
+        avatar_url: existingUser.avatar_url || `https://ui-avatars.com/api/?name=${data.name}`,
+        node_id: existingUser.id,
+        role: data.role,
+        email: data.email,
+        password: data.password,
+      };
+      dispatch(updateUser(updatedUser));
+    } else {
+      const newUser = {
+        name: data.name,
+        avatar_url: `https://ui-avatars.com/api/?name=${data.name}`,
+        id: crypto.randomUUID(),
+        role: data.role,
+        email: data.email,
+        password: data.password,
+      };
+      dispatch(addUser(newUser));
+    }
     navigate('/users');
   };
 
   return (
-    <div style={{ padding: '1rem' }}>
-      <h2>➕ Create User</h2>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <input name="name" placeholder="Name" value={form.name} onChange={handleChange} required />
-        <input name="email" placeholder="Email" value={form.email} onChange={handleChange} required />
-        <select name="role" value={form.role} onChange={handleChange} required>
-          <option value="">Select role</option>
-          <option value="admin">Admin</option>
-          <option value="viewer">Viewer</option>
-        </select>
-        <button type="submit">Create</button>
+    <div className="form-container">
+      <h2>{existingUser ? '✏️ Edit User' : '➕ Add User'}</h2>
+      <form onSubmit={handleSubmit(onSubmit)} className="user-form">
+        <input
+          type="text"
+          placeholder="Name"
+          {...register('name', { required: 'Name is required' })}
+        />
+        {errors.name && <p className="error">{errors.name.message}</p>}
+
+        <input
+          type="email"
+          placeholder="Email"
+          {...register('email', {
+            required: 'Email is required',
+            pattern: {
+              value: /^\S+@\S+$/i,
+              message: 'Invalid email address'
+            }
+          })}
+        />
+        {errors.email && <p className="error">{errors.email.message}</p>}
+
+        <input
+          type="password"
+          placeholder="Password"
+          {...register('password', {
+            required: 'Password is required',
+            minLength: {
+              value: 6,
+              message: 'Password must be at least 6 characters'
+            }
+          })}
+        />
+        {errors.password && <p className="error">{errors.password.message}</p>}
+
+        <label>
+          Role
+          <select {...register('role', { required: true })}>
+            <option value="viewer">Viewer</option>
+            <option value="admin">Admin</option>
+          </select>
+        </label>
+
+        <button type="submit">{existingUser ? 'Update' : 'Create'}</button>
       </form>
     </div>
   );

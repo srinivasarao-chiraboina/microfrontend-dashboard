@@ -600,10 +600,14 @@ module.exports = function (webpackEnv) {
         exposes: {
           './DashboardApp': './src/DashboardApp',
         },
+        remotes: {
+          sharedstore: 'sharedstore@http://localhost:3003/remoteEntry.js',
+        },
         shared: {
           react: { singleton: true, requiredVersion: '^18.3.1', eager: false},
           'react-dom': { singleton: true, requiredVersion: '^18.3.1', eager: false },
           'react-router-dom': { singleton: true, eager: false },
+          '@reduxjs/toolkit': { singleton: true },
         },
       }),
       // Inlines the webpack runtime script. This script is too small to warrant

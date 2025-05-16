@@ -1,4 +1,4 @@
-export {};
+export { };
 
 (async () => {
   const React = await import('react');
@@ -11,6 +11,7 @@ export {};
 
   const { Provider } = await import('react-redux');
   const { store } = await import('sharedstore/store');
+  const { ThemeProvider } = await import('./components/ThemeProvider');
 
   root.render(
     React.createElement(
@@ -18,10 +19,12 @@ export {};
       null,
       React.createElement(
         Provider,
-        {
-          store,
-          children: React.createElement(App)
-        }
+        { store, children: React.createElement(App) },
+        React.createElement(
+          ThemeProvider,
+          null,
+          React.createElement(App)
+        )
       )
     )
   );

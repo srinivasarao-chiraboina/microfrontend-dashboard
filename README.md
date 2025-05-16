@@ -69,18 +69,12 @@ cd ..
 
 ## ▶️ Running the Applications
 
-Use these commands in separate terminals or concurrently:
+Use these commands from root folder (microfrontend-dashboard) in separate terminals or concurrently:
 
 ### ✅ Start shared-store (build and serve)
 
 ```bash
 npm run start:store
-```
-
-### ✅ Start Host
-
-```bash
-npm run start:host
 ```
 
 ### ✅ Start Dashboard
@@ -93,6 +87,12 @@ npm run start:dashboard
 
 ```bash
 npm run start:user
+```
+
+### ✅ Start Host
+
+```bash
+npm run start:host
 ```
 
 ---
